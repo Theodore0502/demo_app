@@ -1,0 +1,285 @@
+import { StyleSheet } from "react-native";
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#C0E3E0",
+  },
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    marginTop: 10,
+  },
+  backButton: {
+    width: 30,
+    height: 30,
+    backgroundColor: "#E8F8F5",
+    borderRadius: 8,
+    paddingTop: 5,
+    paddingLeft: 5,
+  },
+  itemName: {
+    marginLeft: 15,
+    fontWeight: "600",
+    fontSize: 18,
+  },
+  headerText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    lineHeight: 24,
+  },
+  cartIcon: {
+    marginRight: 8,
+    alignItems: "center",
+    backgroundColor: "#E8F8F5",
+    borderRadius: 8,
+    width: 30,
+    height: 30,
+    paddingTop: 4,
+  },
+  illustration: {
+    marginTop: 20,
+    marginBottom: 20,
+    flexDirection: "row",
+  },
+  mainImage_Quantity: {
+    flexDirection: "column",
+    width: "65%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  mainImageContainer: {
+    justifyContent: "flex-start",
+  },
+  mainImage: {
+    width: 200,
+    height: 200,
+    resizeMode: "contain",
+  },
+  quantityContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  quantityButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    width: 120,
+    marginHorizontal: 20,
+    padding: 12,
+    backgroundColor: "#116953",
+    borderRadius: 12,
+    elevation: 2,
+  },
+  quantityText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "white",
+    marginHorizontal: 20,
+  },
+  subImageList: {
+    position: "absolute",
+    flexDirection: "column",
+    right: 0,
+  },
+  subImageContainer: {
+    borderTopLeftRadius: 15,
+    borderBottomLeftRadius: 15,
+    width: 100,
+    height: 75,
+    justifyContent: "center",
+    marginBottom: "10%",
+    backgroundColor: "white",
+  },
+  subImage: {
+    position: "absolute",
+    left: 0,
+    width: "75%",
+    height: "75%",
+    resizeMode: "contain",
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(40, 40, 40, 0.7)", // Màu xám mờ
+    borderTopLeftRadius: 15,
+    borderBottomLeftRadius: 15,
+  },
+  sizeOption: {
+    width: 60,
+    height: 80,
+    borderRadius: 12,
+    backgroundColor: "#F2F2F2",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 10,
+    position: "relative", // Để overlay hoạt động
+    overflow: "hidden", // Thêm để cắt bỏ nội dung con vượt ra ngoài
+  },
+  selectedSizeContainer: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 12,
+    backgroundColor: "#E99313", // Màu cam cho nút được chọn
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  circle1: {
+    backgroundColor: "#F1B24F",
+    position: "absolute",
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    top: 0, // Điều chỉnh để không tràn ra ngoài
+    left: 0,
+  },
+  circle2: {
+    backgroundColor: "#F1B24F",
+    position: "absolute",
+    width: 25,
+    height: 25,
+    borderRadius: 12.5,
+    bottom: 0, // Điều chỉnh để không tràn ra ngoài
+    right: 0,
+  },
+  sizeOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(174, 174, 174, 0.2)", // Lớp phủ mờ cho nút không được chọn
+    borderRadius: 12,
+  },
+  sizeText: {
+    fontSize: 21,
+    fontWeight: "bold",
+    color: "#555",
+  },
+  unitText: {
+    fontSize: 16,
+    color: "#999",
+  },
+  selectedSizeText: {
+    fontSize: 21,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  infoContainerWrapper: {
+    flex: 1,
+    backgroundColor: "white",
+    borderTopStartRadius: 40,
+    borderTopEndRadius: 40,
+    overflow: "hidden",
+  },
+  infoContainer: {
+    flex: 1,
+    backgroundColor: "white",
+    borderTopStartRadius: 40,
+    borderTopEndRadius: 40,
+    marginHorizontal: 5,
+    marginTop: 20,
+  },
+  titleRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingTop: 15,
+  },
+  productName: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  productPrice: {
+    fontSize: 26,
+    fontWeight: "500",
+    color: "red",
+  },
+  sourceRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    marginTop: 5,
+  },
+  sourceText: {
+    color: "gray",
+    fontWeight: "600",
+    fontSize: 17,
+    marginBottom: 8,
+  },
+  ratingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  ratingText: {
+    marginLeft: 5,
+    color: "#FFD700",
+  },
+  descriptionContainer: {
+    paddingHorizontal: 20,
+    marginBottom: 100,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 10,
+    marginBottom: 6,
+  },
+  sizeContainer: {
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    marginVertical: 20,
+  },
+  sizeOptions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
+    marginBottom: 10,
+    flexWrap: "wrap", // Để các nút xuống dòng nếu không đủ chỗ
+  },
+  descriptionText: {
+    color: "gray",
+    fontWeight: "300",
+    fontSize: 18,
+    lineHeight: 25,
+    marginRight: 5,
+    textAlign: "justify",
+  },
+  description: {
+    fontSize: 14,
+    color: "#333",
+    lineHeight: 20,
+  },
+  addToCartButton: {
+    position: "absolute",
+    bottom: 10,
+    left: 20,
+    right: 20,
+    flexDirection: "row",
+    backgroundColor: "#116953",
+    borderRadius: 12,
+    paddingVertical: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: -2 },
+    elevation: 5,
+  },
+  addToCartText: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginLeft: 5,
+  },
+});
+
+export default styles;
