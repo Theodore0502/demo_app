@@ -1,0 +1,210 @@
+[
+  {
+    "id": "1",
+    "name": "Kiwi Shake II",
+    "price": 98.0,
+    "image": "../../assets/kiwi-shake.png",
+    "source": "McDonald's",
+    "category": "Fruit",
+    "description": "Kiwi Shake II là thức uống tươi mát...",
+    "sizes": [
+      { "size": "32" },
+      { "size": "48" },
+      { "size": "59" },
+      { "size": "64" },
+      { "size": "96" }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Blueberry Maze",
+    "price": 98.0,
+    "image": "../../assets/blueberry-maze.png",
+    "source": "McDonald's",
+    "category": "Fruit",
+    "description": "Blueberry Maze là thức uống thơm ngon...",
+    "sizes": [
+      { "size": "32" },
+      { "size": "48" },
+      { "size": "59" },
+      { "size": "64" },
+      { "size": "96" }
+    ]
+  },
+  {
+    "id": "5",
+    "name": "Mango Smoothie",
+    "price": 110.0,
+    "image": "../../assets/mango-smoothie.png",
+    "source": "Starbucks",
+    "category": "Fruit",
+    "description": "Mango Smoothie là thức uống bổ dưỡng...",
+    "sizes": [
+      { "size": "32" },
+      { "size": "48" },
+      { "size": "59" },
+      { "size": "64" },
+      { "size": "96" }
+    ]
+  },
+  {
+    "id": "6",
+    "name": "Apple Juice",
+    "price": 85.0,
+    "image": "../../assets/apple-juice.png",
+    "source": "Jollibee",
+    "category": "Fruit",
+    "description": "Apple Juice là thức uống thanh mát...",
+    "sizes": [
+      { "size": "32" },
+      { "size": "48" },
+      { "size": "59" },
+      { "size": "64" },
+      { "size": "96" }
+    ]
+  },
+  {
+    "id": "3",
+    "name": "Pats Burger",
+    "price": 134.0,
+    "image": "../../assets/pats-burger.png",
+    "source": "Jollibee",
+    "category": "Burger",
+    "description": "Pats Burger là món ăn hấp dẫn..."
+  },
+  {
+    "id": "7",
+    "name": "Cheese Burger",
+    "price": 150.0,
+    "image": "../../assets/cheese-burger.png",
+    "source": "McDonald's",
+    "category": "Burger",
+    "description": "Cheese Burger là món ăn kinh điển..."
+  },
+  {
+    "id": "8",
+    "name": "Chicken Burger",
+    "price": 140.0,
+    "image": "../../assets/chicken-burger.png",
+    "source": "KFC",
+    "category": "Burger",
+    "description": "Chicken Burger là lựa chọn tuyệt vời..."
+  },
+  {
+    "id": "9",
+    "name": "Veggie Burger",
+    "price": 120.0,
+    "image": "../../assets/veggie-burger.png",
+    "source": "Burger King",
+    "category": "Burger",
+    "description": "Veggie Burger là món ăn lành mạnh..."
+  },
+  {
+    "id": "4",
+    "name": "Berries Yogurt",
+    "price": 98.0,
+    "image": "../../assets/berries-yogurt.png",
+    "source": "McDonald's",
+    "category": "Yogurt",
+    "description": "Berries Yogurt là món tráng miệng ngon..."
+  },
+  {
+    "id": "10",
+    "name": "Strawberry Yogurt",
+    "price": 95.0,
+    "image": "../../assets/strawberry-yogurt.png",
+    "source": "Starbucks",
+    "category": "Yogurt",
+    "description": "Strawberry Yogurt là món ăn nhẹ ngọt ngào..."
+  },
+  {
+    "id": "11",
+    "name": "Plain Yogurt",
+    "price": 80.0,
+    "image": "../../assets/plain-yogurt.png",
+    "source": "Jollibee",
+    "category": "Yogurt",
+    "description": "Plain Yogurt là lựa chọn đơn giản..."
+  },
+  {
+    "id": "12",
+    "name": "Mango Yogurt",
+    "price": 100.0,
+    "image": "../../assets/mango-yogurt.png",
+    "source": "KFC",
+    "category": "Yogurt",
+    "description": "Mango Yogurt là món ăn nhiệt đới..."
+  },
+  {
+    "id": "13",
+    "name": "Vanilla Cream",
+    "price": 90.0,
+    "image": "../../assets/vanilla-cream.png",
+    "source": "McDonald's",
+    "category": "Cream",
+    "description": "Vanilla Cream là món tráng miệng tinh tế..."
+  },
+  {
+    "id": "14",
+    "name": "Chocolate Cream",
+    "price": 95.0,
+    "image": "../../assets/chocolate-cream.png",
+    "source": "Starbucks",
+    "category": "Cream",
+    "description": "Chocolate Cream là món ăn ngọt ngào..."
+  },
+  {
+    "id": "15",
+    "name": "Strawberry Cream",
+    "price": 100.0,
+    "image": "../../assets/strawberry-cream.png",
+    "source": "Jollibee",
+    "category": "Cream",
+    "description": "Strawberry Cream là món tráng miệng tươi mát..."
+  },
+  {
+    "id": "16",
+    "name": "Caramel Cream",
+    "price": 110.0,
+    "image": "../../assets/caramel-cream.png",
+    "source": "KFC",
+    "category": "Cream",
+    "description": "Caramel Cream là món ăn sang trọng..."
+  },
+  {
+    "id": "17",
+    "name": "Espresso",
+    "price": 120.0,
+    "image": "../../assets/espresso.png",
+    "source": "Starbucks",
+    "category": "Coffee",
+    "description": "Espresso là thức uống đậm đà..."
+  },
+  {
+    "id": "18",
+    "name": "Latte",
+    "price": 130.0,
+    "image": "../../assets/latte.png",
+    "source": "Starbucks",
+    "category": "Coffee",
+    "description": "Latte là thức uống mượt mà..."
+  },
+  {
+    "id": "19",
+    "name": "Cappuccino",
+    "price": 125.0,
+    "image": "../../assets/cappuccino.png",
+    "source": "McDonald's",
+    "category": "Coffee",
+    "description": "Cappuccino là thức uống cân bằng..."
+  },
+  {
+    "id": "20",
+    "name": "Mocha",
+    "price": 140.0,
+    "image": "../../assets/mocha.png",
+    "source": "Jollibee",
+    "category": "Coffee",
+    "description": "Mocha là thức uống hấp dẫn..."
+  }
+]

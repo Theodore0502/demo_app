@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingTop: 22,
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingStart: 20,
   },
   headerText: {
     fontSize: 18,

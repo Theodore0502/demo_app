@@ -8,15 +8,15 @@ const styles = StyleSheet.create({
   header: {
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 30,
+    paddingTop: 6,
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingBottom: 20,
   },
   headerText: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#333",
-    lineHeight: 24,
+    // lineHeight: 24,
   },
   topBar: {
     flexDirection: "row",
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontWeight: "bold",
-    fontSize: 10,
+    fontSize: 16,
     color: "#000",
   },
   headerIcons: {

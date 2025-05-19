@@ -1,25 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
     View,
     Text,
     Image,
     TouchableOpacity,
     ScrollView,
+    Modal,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "../../styles/cart/Order";
 import { NavigationProp, useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/route";
 import { useCart } from "../../contexts/CartContext"; // Import useCart
+import { useFocusEffect } from "@react-navigation/native";
 
 const OrderScreen = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const route = useRoute<RouteProp<RootStackParamList, "Order">>();
-    const { cartItems, increaseQuantity, decreaseQuantity, removeItem } = useCart(); // Lấy dữ liệu từ context
-    
+    const { cartItems, increaseQuantity, decreaseQuantity, removeItem, clearCart } = useCart(); // Lấy dữ liệu từ context
+
+    useFocusEffect(
+        useCallback(() => {
+            if (route.params?.voucherTitle) {
+                setSelectedVoucher(route.params.voucherTitle);
+                setDiscountValue(route.params.discountValue || 0);
+
+                // Xóa params đi để tránh re-run vô tận
+                navigation.setParams({ voucherTitle: undefined, discountValue: undefined });
+            }
+        }, [route.params])
+    );
+
     // Nhận voucherTitle và discountValue từ route.params
     const [selectedVoucher, setSelectedVoucher] = useState(route.params?.voucherTitle || "");
     const [discountValue, setDiscountValue] = useState(route.params?.discountValue || 0);
+    const [modalVisible, setModalVisible] = useState(false);
 
     // Tính Subtotal (tổng tiền trước giảm giá)
     const calculateSubtotal = () => {
@@ -53,36 +68,54 @@ const OrderScreen = () => {
     };
 
     const handleCheckout = () => {
-        navigation.navigate("Payment"); // Điều hướng đến màn hình Payment
+        setModalVisible(true);
+
+        setTimeout(() => {
+            setModalVisible(false);
+            clearCart();
+            setSelectedVoucher("");
+            setDiscountValue(0);
+
+            // Reset navigation stack và xóa luôn params voucher để tránh bị set lại
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'Main', params: { screen: 'OrderHistory' } }],
+            });
+        }, 1500);
+    };
+
+    const handleCloseModal = () => {
+        setModalVisible(false);
+        clearCart();
+        setSelectedVoucher("");
+        setDiscountValue(0);
+    };
+
+    const handleBackPress = () => {
+        // Nếu có thể goBack thì làm, nếu không thì navigate home
+        if (navigation.canGoBack()) {
+            navigation.goBack();
+        } else {
+            navigation.navigate("Main", { screen: "Home" });
+        }
     };
 
     return (
         <View style={styles.container}>
             {/* Header */}
             <View style={styles.headerContainer}>
-                <TouchableOpacity
-                    onPress={() => {
-                        if (route.params?.voucherTitle) {
-                            navigation.navigate("Main", { screen: "Home" });
-                        } else {
-                            navigation.goBack();
-                        }
-                    }}
-                >
-                    <Ionicons
-                        name="arrow-back-outline"
-                        size={20}
-                        color="black"
-                        style={styles.backButton}
-                    />
-                </TouchableOpacity>
-                <Text style={styles.headerText}>My Order</Text>
+                <View style={styles.headerIcons}>
+                    <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
+                        <Ionicons name="arrow-back" size={20} color="#000" />
+                    </TouchableOpacity>
+                    <Text style={styles.headerTitle}>Order</Text>
+                </View>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <TouchableOpacity style={styles.cartIcon}>
                         <Ionicons name="cart-outline" size={21} color="#333" />
                         <View style={styles.cartBadge}>
                             <Text style={styles.cartBadgeText}>
-                                {cartItems.length}
+                                {cartItems.reduce((total, item) => total + item.quantity, 0)}
                             </Text>
                         </View>
                     </TouchableOpacity>
@@ -98,17 +131,12 @@ const OrderScreen = () => {
             </View>
 
             {/* Order Items */}
-            <ScrollView
-                style={{ flex: 1 }}
-                contentContainerStyle={{ paddingBottom: 100 }}
-                showsVerticalScrollIndicator={false}
-            >
+            <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 100 }} showsVerticalScrollIndicator={false}>
                 {cartItems.map((item) => (
-                    <View key={`${item.id}-${item.size}`} style={styles.orderItem}>
+                    <View key={item.id} style={styles.orderItem}>
                         <Image source={item.image} style={styles.itemImage} />
                         <View style={styles.itemDetails}>
                             <Text style={styles.itemName}>{item.name}</Text>
-                            {/* Conditionally render size if it exists */}
                             {item.size ? (
                                 <Text style={styles.itemSize}>Size: {item.size} OZ</Text>
                             ) : (
@@ -214,7 +242,55 @@ const OrderScreen = () => {
                     <Text style={styles.checkoutText}>Checkout</Text>
                 </TouchableOpacity>
             </View>
+
+            {/* Modal Thông báo */}
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={handleCloseModal}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalView}>
+                        <Image
+                            source={require('../../../assets/check.png')}
+                            style={styles.modalIcon}
+                        />
+                        <Text style={styles.modalTitle}>Congratulations!!</Text>
+                        <Text style={styles.modalSubtitle}>Your order has been placed successfully!</Text>
+                    </View>
+                </View>
+            </Modal>
         </View>
+    );
+};
+
+// --- JSON helper functions (thao tác dữ liệu JSON) ---
+export const parseJSON = (jsonString: string) => {
+    try {
+        return JSON.parse(jsonString);
+    } catch (error) {
+        console.error("Failed to parse JSON:", error);
+        return null;
+    }
+};
+
+export const stringifyJSON = (data: any) => {
+    try {
+        return JSON.stringify(data, null, 2); // format đẹp
+    } catch (error) {
+        console.error("Failed to stringify JSON:", error);
+        return "";
+    }
+};
+
+export const addItemToCart = (cartItems: any[], newItem: any) => {
+    return [...cartItems, newItem];
+};
+
+export const updateItemQuantity = (cartItems: any[], itemId: string, newQuantity: number) => {
+    return cartItems.map(item =>
+        item.id === itemId ? { ...item, quantity: newQuantity } : item
     );
 };
 

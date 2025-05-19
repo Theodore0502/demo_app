@@ -1,133 +1,143 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
-// Định nghĩa kiểu dữ liệu cho sản phẩm
-interface CartItem {
-    id: number;
+export type OrderItem = {
+    id: string;
     name: string;
-    source?: string;
+    image: any;
     price: number;
     quantity: number;
-    image: any; // Kiểu của hình ảnh trong React Native
-    size?: string; // Thêm thuộc tính size cho sản phẩm từ DetailScreen
-}
+    size?: string;
+    date?: string;
+};
 
-// Định nghĩa kiểu dữ liệu cho CartContext
-interface CartContextType {
-    cartItems: CartItem[];
-    addToCart: (item: CartItem) => void;
-    increaseQuantity: (id: number) => void;
-    decreaseQuantity: (id: number) => void;
-    removeItem: (id: number) => void;
-}
+type CartContextType = {
+    cartItems: OrderItem[];
+    orderHistory: OrderItem[];
+    addToCart: (item: OrderItem) => void;
+    increaseQuantity: (id: string) => void;
+    decreaseQuantity: (id: string) => void;
+    removeItem: (id: string) => void;
+    checkout: () => void;
+    clearOrderHistory: () => void;
+    clearCart: () => void;
+};
+
+const CART_STORAGE_KEY = "@cart_items";
+const ORDER_STORAGE_KEY = "@order_history";
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-// Dữ liệu ban đầu (tương tự orderData trong OrderScreen)
-const initialCartItems: CartItem[] = [
-    {
-        id: 1,
-        name: "Kiwi Shake II",
-        source: "McDonald's",
-        price: 98.0,
-        quantity: 1,
-        image: require("../../assets/kiwi-shake.png"),
-    },
-    {
-        id: 2,
-        name: "Blueberry Maze",
-        price: 98.0,
-        quantity: 1,
-        image: require("../../assets/blueberry-maze.png"),
-    },
-    {
-        id: 3,
-        name: "Apple Juice",
-        price: 85.0,
-        quantity: 1,
-        image: require("../../assets/apple-juice.png"),
-    },
-    {
-        id: 4,
-        name: "Pats Burger",
-        price: 134.0,
-        quantity: 1,
-        image: require("../../assets/pats-burger.png"),
-    },
-    {
-        id: 5,
-        name: "Cheese Burger",
-        price: 150.0,
-        quantity: 1,
-        image: require("../../assets/cheese-burger.png"),
-    },
-    {
-        id: 6,
-        name: "Chicken Burger",
-        price: 140.0,
-        quantity: 1,
-        image: require("../../assets/chicken-burger.png"),
-    },
-];
-
-// Provider để bao bọc ứng dụng
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-    const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
+    const [cartItems, setCartItems] = useState<OrderItem[]>([]);
+    const [orderHistory, setOrderHistory] = useState<OrderItem[]>([]);
 
-    const addToCart = (item: CartItem) => {
-        setCartItems((prevItems) => {
-            // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa (dựa trên id và size)
-            const existingItem = prevItems.find(
-                (cartItem) => cartItem.id === item.id && cartItem.size === item.size
-            );
-            if (existingItem) {
-                // Nếu đã có, tăng số lượng
-                return prevItems.map((cartItem) =>
-                    cartItem.id === item.id && cartItem.size === item.size
-                        ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
-                        : cartItem
-                );
+    // Load cart and orders from AsyncStorage on mount
+    useEffect(() => {
+        (async () => {
+            try {
+                const storedCart = await AsyncStorage.getItem(CART_STORAGE_KEY);
+                const storedOrders = await AsyncStorage.getItem(ORDER_STORAGE_KEY);
+                if (storedCart) setCartItems(JSON.parse(storedCart));
+                if (storedOrders) setOrderHistory(JSON.parse(storedOrders));
+            } catch (error) {
+                console.error("Failed to load cart or orders from storage", error);
             }
-            // Nếu chưa có, thêm mới vào danh sách
-            return [...prevItems, item];
+        })();
+    }, []);
+
+    // Save cartItems when changed
+    useEffect(() => {
+        AsyncStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems)).catch(err =>
+            console.error("Error saving cart items", err)
+        );
+    }, [cartItems]);
+
+    // Save orderHistory when changed
+    useEffect(() => {
+        AsyncStorage.setItem(ORDER_STORAGE_KEY, JSON.stringify(orderHistory)).catch(err =>
+            console.error("Error saving order history", err)
+        );
+    }, [orderHistory]);
+
+    const addToCart = (item: OrderItem) => {
+        setCartItems(prev => {
+            const index = prev.findIndex(i => i.id === item.id);
+            if (index !== -1) {
+                const updated = [...prev];
+                updated[index].quantity += item.quantity;
+                return updated;
+            }
+            return [...prev, item];
         });
     };
 
-    const increaseQuantity = (id: number) => {
-        setCartItems((prevItems) =>
-            prevItems.map((item) =>
-                item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-            )
+    const increaseQuantity = (id: string) => {
+        setCartItems(prev =>
+            prev.map(item => (item.id === id ? { ...item, quantity: item.quantity + 1 } : item))
         );
     };
 
-    const decreaseQuantity = (id: number) => {
-        setCartItems((prevItems) =>
-            prevItems.map((item) =>
-                item.id === id && item.quantity > 1
-                    ? { ...item, quantity: item.quantity - 1 }
-                    : item
-            )
+    const decreaseQuantity = (id: string) => {
+        setCartItems(prev =>
+            prev
+                .map(item => (item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item))
+                .filter(item => item.quantity > 0)
         );
     };
 
-    const removeItem = (id: number) => {
-        setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    const removeItem = (id: string) => {
+        setCartItems(prev => prev.filter(item => item.id !== id));
+    };
+
+    const checkout = () => {
+        if (cartItems.length === 0) {
+            Alert.alert("Cart Empty", "Your cart is empty. Add items before checkout.");
+            return;
+        }
+        const now = new Date().toLocaleString();
+        const ordersWithDate = cartItems.map(item => ({ ...item, date: now }));
+        setOrderHistory(prev => [...ordersWithDate, ...prev]);
+        setCartItems([]);
+        Alert.alert("Success", "Order placed successfully!");
+    };
+
+    const clearOrderHistory = () => {
+        setOrderHistory([]);
+        AsyncStorage.removeItem(ORDER_STORAGE_KEY).catch(err =>
+            console.error("Error clearing order history", err)
+        );
+    };
+
+    const clearCart = () => {
+        setCartItems([]);
+        AsyncStorage.removeItem(CART_STORAGE_KEY).catch(err =>
+            console.error("Error clearing cart items", err)
+        );
     };
 
     return (
         <CartContext.Provider
-            value={{ cartItems, addToCart, increaseQuantity, decreaseQuantity, removeItem }}
+            value={{
+                cartItems,
+                orderHistory,
+                addToCart,
+                increaseQuantity,
+                decreaseQuantity,
+                removeItem,
+                checkout,
+                clearOrderHistory,
+                clearCart,
+            }}
         >
             {children}
         </CartContext.Provider>
     );
 };
 
-// Hook để sử dụng CartContext
-export const useCart = () => {
+export const useCart = (): CartContextType => {
     const context = useContext(CartContext);
-    if (!context) {
-        throw new Error("useCart must be used within a CartProvider");
-    }
+    if (!context) throw new Error("useCart must be used within CartProvider");
     return context;
 };

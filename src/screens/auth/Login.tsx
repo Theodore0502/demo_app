@@ -33,7 +33,7 @@ const LoginScreen = () => {
           onPress: () => navigation.navigate("Main"),
         },
       ]);
-    } 
+    }
   };
 
   const handlePasswordVisibility = () => {

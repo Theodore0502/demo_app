@@ -5,6 +5,8 @@ import { TabParamList } from '../../types/route';
 import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from "../../contexts/CartContext"; // Import useCart
+import PaymentScreen from "../cart/Payment";
+
 
 const ProfileScreen = () => {
     const navigation = useNavigation<NavigationProp<TabParamList, "Profile">>();
@@ -79,6 +81,14 @@ const ProfileScreen = () => {
                     >
                         <Feather name="clock" size={20} style={styles.menuIcon} />
                         <Text style={styles.menuLabel}>Order History</Text>
+                        <Feather name="chevron-right" size={20} color="black" style={styles.menuArrow} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.menuItem}
+                        onPress={() => navigation.navigate('Payment')}
+                    >
+                        <Feather name="clock" size={20} style={styles.menuIcon} />
+                        <Text style={styles.menuLabel}>Payment</Text>
                         <Feather name="chevron-right" size={20} color="black" style={styles.menuArrow} />
                     </TouchableOpacity>
                     <TouchableOpacity

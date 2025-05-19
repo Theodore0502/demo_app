@@ -15,30 +15,31 @@ import { ImageBackground } from 'react-native';
 import { useCart } from "../../contexts/CartContext"; // Import useCart
 
 interface Voucher {
+    id: string;
     title: string;
     discount: string;
     description: string;
-    discountValue: number; // Thêm discountValue (phần trăm giảm giá dạng số)
+    discountValue: number;
 }
-
-const vouchers: Voucher[] = [
-    { title: 'Buy 1 Get 2', discount: '50% OFF', description: '**Term and Conditions Apply', discountValue: 50 },
-    { title: 'HAPPY 12', discount: '60% OFF', description: '**Term and Conditions Apply', discountValue: 60 },
-    { title: 'Buy 1 Get 1', discount: '30% OFF', description: '**Term and Conditions Apply', discountValue: 30 },
-    { title: 'HOLIDAY 1', discount: '20% OFF', description: '**Term and Conditions Apply', discountValue: 20 },
-    { title: '$231', discount: 'FREE Voucher', description: '**Term and Conditions Apply', discountValue: 0 }, // Giả định không giảm giá
-    { title: 'Buy 1 Get 2', discount: '70% OFF', description: '**Term and Conditions Apply', discountValue: 70 },
-];
 
 const VoucherScreen: React.FC = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { cartItems } = useCart(); // Lấy cartItems từ CartContext
     const scrollY = useRef(new Animated.Value(0)).current;
 
+    const [availableVouchers, setAvailableVouchers] = React.useState<Voucher[]>([
+        { id: '1', title: 'Buy 1 Get 2', discount: '50% OFF', description: '**Term and Conditions Apply', discountValue: 50 },
+        { id: '2', title: 'HAPPY 12', discount: '60% OFF', description: '**Term and Conditions Apply', discountValue: 60 },
+        { id: '3', title: 'Buy 1 Get 1', discount: '30% OFF', description: '**Term and Conditions Apply', discountValue: 30 },
+        { id: '4', title: 'HOLIDAY 1', discount: '20% OFF', description: '**Term and Conditions Apply', discountValue: 20 },
+        { id: '5', title: '$231', discount: 'FREE Voucher', description: '**Term and Conditions Apply', discountValue: 0 },
+        { id: '6', title: 'Buy 1 Get 2', discount: '70% OFF', description: '**Term and Conditions Apply', discountValue: 70 },
+    ]);
     const handleSelectVoucher = (voucher: Voucher) => {
-        // Truyền cả title và discountValue sang OrderScreen
-        navigation.navigate("Order", { voucherTitle: voucher.title, discountValue: voucher.discountValue });
+        setAvailableVouchers(prev => prev.filter(v => v.id !== voucher.id));  // Xóa voucher theo id
+        navigation.replace("Order", { voucherTitle: voucher.title, discountValue: voucher.discountValue });
     };
+
 
     const handleBackPress = () => {
         const state = navigation.getState();
@@ -56,7 +57,7 @@ const VoucherScreen: React.FC = () => {
                 <View style={styles.topBar}>
                     <View style={styles.headerIcons}>
                         <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
-                            <Ionicons name="arrow-back" size={18} color="#000" />
+                            <Ionicons name="arrow-back" size={20} color="#000" />
                         </TouchableOpacity>
                         <Text style={styles.headerTitle}>All Offer</Text>
                     </View>
@@ -127,7 +128,7 @@ const VoucherScreen: React.FC = () => {
                 {/* Voucher List */}
                 <Text style={styles.vouchersTitle}>Vouchers</Text>
                 <View style={styles.voucherList}>
-                    {vouchers.map((voucher, index) => (
+                    {availableVouchers.map((voucher, index) => (
                         <TouchableOpacity
                             key={index}
                             style={styles.voucherCard}

@@ -6,14 +6,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#EAEBED",
   },
   headerContainer: {
+    paddingTop: 30,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingVertical: 20,
     backgroundColor: "#fff",
     borderBottomWidth: 1,
     borderBottomColor: "#E0E0E0",
+  },
+  headerIcons: {
+    flexDirection: "row",
+    alignItems: "center",
+    // paddingRight: 10,
+  },
+  headerTitle: {
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "#000",
+    paddingLeft: 10,
+
   },
   backButton: {
     width: 30,
@@ -24,12 +37,11 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   },
   headerText: {
-    position: "absolute",
-    left: "50%",
     transform: [{ translateX: -45 }],
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
     color: "#333",
+    left: -45,
   },
   cartIcon: {
     marginRight: 8,
@@ -181,6 +193,43 @@ const styles = StyleSheet.create({
     fontSize: 20,
     // fontWeight: "bold",
   },
+
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    backgroundColor: 'white',
+    width: 300,
+    height: 300,
+    borderRadius: 20,
+    paddingVertical: 30,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    elevation: 5,
+  },
+  modalIcon: {
+    width: 120,
+    height: 120,
+    resizeMode: 'contain',
+    marginTop: 10,
+    marginBottom: 30,
+  },
+  modalTitle: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 8,
+  },
+  modalSubtitle: {
+    fontSize: 14,
+    color: 'gray',
+    textAlign: 'center',
+    marginTop: 5,
+  },
+
 });
 
 export default styles;

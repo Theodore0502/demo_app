@@ -54,7 +54,7 @@ const TabNavigator = () => {
                         />
                     ),
                     tabBarLabel: ({ color }) => (
-                        <Text style={[styles.tabBarLabel, { color }]}>Order</Text>
+                        <Text style={[styles.tabBarLabel, { color }]}>Order History</Text>
                     ),
                 }}
             />

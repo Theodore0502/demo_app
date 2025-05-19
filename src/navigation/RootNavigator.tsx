@@ -9,13 +9,14 @@ import OrderScreen from "../screens/cart/Order";
 import DetailScreen from "../screens/item/ProductDetail";
 import EditScreen from "../screens/user/Edit";
 import PaymentScreen from "../screens/cart/Payment";
+import OrderHistoryScreen from "../screens/cart/OrderHistory";
 
 const RootNavigator = () => {
     const Stack = createNativeStackNavigator();
 
     return (
         <Stack.Navigator
-            initialRouteName="Splash"
+            initialRouteName="Main"
             screenOptions={{ headerShown: false }}
         >
             {/* Initial Screens */}
@@ -32,6 +33,7 @@ const RootNavigator = () => {
             <Stack.Screen name="Edit" component={EditScreen} />
             <Stack.Screen name="About" component={AboutScreen} />
             <Stack.Screen name="Payment" component={PaymentScreen} />
+            <Stack.Screen name="OrderHistory" component={OrderHistoryScreen} />
             {/* Main screens */}
         </Stack.Navigator>
     );
