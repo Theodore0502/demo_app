@@ -4,10 +4,12 @@ import styles from '../../styles/user/Profile';
 import { TabParamList } from '../../types/route';
 import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useAuth } from '../../contexts/AuthContext';
+import { useCart } from "../../contexts/CartContext"; // Import useCart
 
 const ProfileScreen = () => {
     const navigation = useNavigation<NavigationProp<TabParamList, "Profile">>();
     const { user } = useAuth();
+    const { cartItems } = useCart(); // Lấy cartItems từ CartContext
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -33,11 +35,16 @@ const ProfileScreen = () => {
                                 onPress={() => navigation.navigate("Order")}
                             >
                                 <Ionicons name="cart-outline" size={21} color="#333" />
+                                <View style={styles.cartBadge}>
+                                    <Text style={styles.cartBadgeText}>
+                                        {cartItems.length} {/* Hiển thị số lượng sản phẩm */}
+                                    </Text>
+                                </View>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
                                 <Image
-                                    source={require("../../../assets/user.png")}
-                                    style={{ width: 30, height: 30 }}
+                                    source={user?.avatar ? { uri: user.avatar } : require('../../../assets/user.png')}
+                                    style={{ width: 30, height: 30, borderRadius: 5 }}
                                 />
                             </TouchableOpacity>
                         </View>
@@ -47,12 +54,12 @@ const ProfileScreen = () => {
                     <View style={styles.userRow}>
                         <View style={styles.headerIcons}>
                             <Image
-                                source={require('../../../assets/user.png')}
+                                source={user?.avatar ? { uri: user.avatar } : require('../../../assets/user.png')}
                                 style={styles.avatarSmall}
                             />
                             <View style={{ marginLeft: 10, marginBottom: 15 }}>
                                 <Text style={styles.name}>{user ? user.name : "Guest"}</Text>
-                                <Text style={styles.location}>Maple Ave, New York</Text>
+                                <Text style={styles.location}>{user?.address || "No address provided"}</Text>
                             </View>
                         </View>
                         <TouchableOpacity

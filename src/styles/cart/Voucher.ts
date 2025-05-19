@@ -7,10 +7,10 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: "center",
+    justifyContent: "space-between",
     paddingTop: 30,
     paddingHorizontal: 20,
     paddingVertical: 20,
-    justifyContent: "space-between",
   },
   headerText: {
     fontSize: 18,
@@ -42,22 +42,34 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
-  amountOrders: {
+  cartIcon: {
+    marginRight: 8,
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 8,
+    width: 30,
+    height: 30,
+    paddingTop: 4,
+  },
+  cartBadge: {
     position: "absolute",
-    top: -10,
-    left: 5,
-    backgroundColor: "darkgreen",
+    top: -5,
+    right: -5,
+    backgroundColor: "#53B175",
     borderRadius: 10,
-    height: 15,
-    width: 15,
-    fontSize: 8,
+    width: 18,
+    height: 18,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cartBadgeText: {
     color: "#fff",
-    textAlign: "center",
-    textAlignVertical: "center",
+    fontSize: 10,
+    fontWeight: "bold",
   },
   headerTitle: {
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 10,
     color: "#000",
   },
   headerIcons: {
@@ -71,18 +83,19 @@ const styles = StyleSheet.create({
   },
   badge: {
     position: "absolute",
-    right: 5,
+    right: -5,
     top: -5,
     // backgroundColor: 'green',
     borderRadius: 10,
-    width: 20,
-    height: 20,
+    width: 18,
+    height: 18,
     justifyContent: "center",
     alignItems: "center",
   },
   badgeText: {
     color: "#fff",
-    fontSize: 12,
+    fontSize: 10,
+    fontWeight: "bold",
   },
   firstBanner: {
     flexDirection: "row",
@@ -169,7 +182,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     padding: 10,
-    
+
     marginHorizontal: 15,
   },
   voucherCard: {

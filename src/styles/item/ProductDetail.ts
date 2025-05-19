@@ -13,6 +13,11 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     marginTop: 10,
   },
+  errorText: {
+        color: "red",
+        textAlign: "center",
+        marginTop: 20,
+    },
   backButton: {
     width: 30,
     height: 30,
@@ -40,6 +45,22 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     paddingTop: 4,
+  },
+  cartBadge: {
+    position: "absolute",
+    top: -5,
+    right: -5,
+    backgroundColor: "#53B175",
+    borderRadius: 10,
+    width: 18,
+    height: 18,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cartBadgeText: {
+    color: "#fff",
+    fontSize: 10,
+    fontWeight: "bold",
   },
   illustration: {
     marginTop: 20,

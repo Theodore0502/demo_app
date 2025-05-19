@@ -10,12 +10,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    paddingTop: 22,
     paddingHorizontal: 20,
-    paddingVertical: 15,
-    marginTop: 5,
+    paddingVertical: 20,
   },
   headerText: {
     fontSize: 18,
@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
     height: 18,
     alignItems: "center",
     justifyContent: "center",
-},
-cartBadgeText: {
+  },
+  cartBadgeText: {
     color: "#fff",
     fontSize: 10,
     fontWeight: "bold",
-},
+  },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",

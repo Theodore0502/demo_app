@@ -61,14 +61,17 @@ const VoucherScreen: React.FC = () => {
                         <Text style={styles.headerTitle}>All Offer</Text>
                     </View>
                     <View style={{ flexDirection: "row", alignItems: "center", marginRight: 10 }}>
-                        <View style={styles.cartButton}>
-                            <View>
-                                <Text style={styles.amountOrders}>{cartItems.length}</Text>
+                        <TouchableOpacity
+                            style={styles.cartIcon}
+                            onPress={() => navigation.navigate("Order")}
+                        >
+                            <Ionicons name="cart-outline" size={21} color="#333" />
+                            <View style={styles.cartBadge}>
+                                <Text style={styles.cartBadgeText}>
+                                    {cartItems.length} {/* Hiển thị số lượng sản phẩm */}
+                                </Text>
                             </View>
-                            <TouchableOpacity onPress={() => navigation.navigate("Order")}>
-                                <Ionicons name="cart-outline" size={20} color="#333" />
-                            </TouchableOpacity>
-                        </View>
+                        </TouchableOpacity>
                         <TouchableOpacity onPress={() => navigation.navigate("Main", { screen: "Profile" })}>
                             <Image
                                 source={require("../../../assets/user.png")}

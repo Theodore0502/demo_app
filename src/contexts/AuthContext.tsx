@@ -6,13 +6,17 @@ type User = {
     name: string;
     username: string;
     password: string;
+    avatar?: string;
+    address?: string;
 };
 
 type AuthContextType = {
     user: User | null;
     login: (username: string, password: string) => Promise<boolean>;
-    signup: (name: string, username: string, password: string) => Promise<boolean>;
+    signup: (name: string, username: string, password: string, address?: string) => Promise<boolean>;
     logout: () => void;
+    setUser: React.Dispatch<React.SetStateAction<User | null>>;
+    setAvatar: (avatar: string | null) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -51,10 +55,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             return false;
         }
 
-        // Simulating login by checking user from AsyncStorage
         const storedUser = await AsyncStorage.getItem(username);
         if (storedUser) {
-            const userData = JSON.parse(storedUser);
+            const userData = JSON.parse(storedUser) as User;
             if (userData.password === password) {
                 setUser(userData);
                 return true;
@@ -65,7 +68,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return false;
     };
 
-    const signup = async (name: string, username: string, password: string) => {
+    const signup = async (name: string, username: string, password: string, address: string = '') => {
         if (!name.trim() && !username.trim() && !password.trim()) {
             Alert.alert("Notification", "Please fill all fields!");
             return false;
@@ -101,36 +104,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             return false;
         }
 
-        // Check if the username already exists in AsyncStorage
         const existingUser = await AsyncStorage.getItem(username);
         if (existingUser) {
             Alert.alert("Notification", "Email is already registered!");
             return false;
         }
 
-        // Store the new user in AsyncStorage
-        const newUser: User = { name, username, password };
+        const newUser: User = { name, username, password, avatar: null, address };
         await AsyncStorage.setItem(username, JSON.stringify(newUser));
-
         setUser(newUser);
         return true;
     };
 
     const logout = () => {
         setUser(null);
-        // Clear user data from AsyncStorage if needed
+    };
+
+    const setAvatar = (avatar: string | null) => {
+        if (user) {
+            const updatedUser = { ...user, avatar };
+            setUser(updatedUser);
+            AsyncStorage.setItem(user.username, JSON.stringify(updatedUser)).catch(err => console.error("Error saving avatar:", err));
+        }
     };
 
     return (
-        <AuthContext.Provider
-            value={{ user, login, signup, logout }}
-        >
+        <AuthContext.Provider value={{ user, login, signup, logout, setUser, setAvatar }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-export const useAuth = () => {
+export const useAuth = (): AuthContextType => {
     const context = useContext(AuthContext);
     if (context === undefined) {
         throw new Error('useAuth must be used within an AuthProvider');
