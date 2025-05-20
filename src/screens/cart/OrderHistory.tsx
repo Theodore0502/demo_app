@@ -13,6 +13,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { TabParamList, OrderItem } from "../../types/route";
 import { orderHistory, styles } from "../../../src/styles/cart/OrderHistory";
 import { useCart } from "../../contexts/CartContext"; // Import useCart
+import { useOrderHistory } from '../../contexts/OrderHistoryContext';
 
 const OrderHistoryScreen: React.FC = () => {
     const navigation = useNavigation<NavigationProp<TabParamList>>();
@@ -20,7 +21,7 @@ const OrderHistoryScreen: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState<OrderItem[]>([]);
     const [isSearching, setIsSearching] = useState(false);
-
+    const { orders } = useOrderHistory();
     // Handle search functionality based on displayed orders
     const handleSearch = () => {
         if (searchQuery.trim() === "") {
@@ -30,8 +31,9 @@ const OrderHistoryScreen: React.FC = () => {
         }
 
         const results = orderHistory.filter((order) =>
-            order.name.toLowerCase().includes(searchQuery.toLowerCase())
+            (order?.name ?? "").toLowerCase().includes(searchQuery.toLowerCase())
         );
+
 
         setSearchResults(results);
         setIsSearching(true);
@@ -45,21 +47,29 @@ const OrderHistoryScreen: React.FC = () => {
     };
 
     // Render each order item
-    const renderOrderItem = ({ item }: { item: OrderItem }) => (
-        <View style={styles.orderedList}>
-            <View style={styles.orderItem}>
-                <Image source={item.image} style={styles.itemImage} />
-                <View style={styles.itemDetails}>
-                    <Text style={styles.itemName}>{item.name}</Text>
-                    <Text style={styles.itemDate}>{item.date}</Text>
-                </View>
-                <View style={styles.itemPriceContainer}>
-                    <Text style={styles.price}>Price</Text>
-                    <Text style={styles.itemPrice}>₱{item.price.toFixed(2)}</Text>
+    const renderOrderItem = ({ item }: { item: OrderItem }) => {
+        const price = typeof item.price === "number" ? item.price : 0;
+        return (
+            <View style={styles.orderedList}>
+                <View style={styles.orderItem}>
+                    <Image source={item.image} style={styles.itemImage} />
+                    <View style={styles.itemDetails}>
+                        <Text style={styles.itemName}>{item.name}</Text>
+                        <Text style={styles.itemDate}>{item.date}</Text>
+                        <Text style={styles.itemQuantity}>Quantity: {item.quantity}</Text>
+                    </View>
+                    <View style={styles.itemPriceContainer}>
+                        <Text style={styles.price}>Price</Text>
+                        <Text style={styles.itemPrice}>₱{(price * item.quantity).toFixed(2)}</Text>
+                    </View>
                 </View>
             </View>
-        </View>
-    );
+        );
+    };
+
+    if (orders.length === 0) {
+        return <Text>No orders yet</Text>;
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -133,10 +143,20 @@ const OrderHistoryScreen: React.FC = () => {
                 </View>
             ) : (
                 <FlatList
-                    data={isSearching ? searchResults : orderHistory}
-                    renderItem={renderOrderItem}
+                    data={orders}
                     keyExtractor={(item) => item.id}
-                    showsVerticalScrollIndicator={false}
+                    renderItem={({ item }) => (
+                        <View>
+                            <Text>Order ID: {item.id}</Text>
+                            <Text>Date: {item.date}</Text>
+                            <Text>Total: ₱{item.total.toFixed(2)}</Text>
+                            <Text>Voucher: {item.voucher || 'None'}</Text>
+                            <Text>Items:</Text>
+                            {item.items.map(i => (
+                                <Text key={i.id}>- {i.name} x{i.quantity}</Text>
+                            ))}
+                        </View>
+                    )}
                 />
             )}
         </SafeAreaView>

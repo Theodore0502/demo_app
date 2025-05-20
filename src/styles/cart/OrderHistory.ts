@@ -1,35 +1,67 @@
 import { StyleSheet } from "react-native";
-import { OrderItem } from "../../types/route";
+import { Order } from "../../types/route";
 
 // Simulated order history data based on "Coffee" category from HomeScreen
-export const orderHistory: OrderItem[] = [
+export const orderHistory: Order[] = [
   {
     id: "17",
-    name: "Espresso",
     date: "Feb 25, 2023",
-    price: 120.0,
-    image: require("../../../assets/espresso.png"),
+    total: 120.0,
+    voucher: undefined,
+    items: [
+      {
+        id: "1",
+        name: "Espresso",
+        quantity: 1,
+        price: 120.0,
+        image: require("../../../assets/espresso.png"),
+      },
+    ],
   },
   {
     id: "18",
-    name: "Latte",
     date: "Feb 23, 2023",
-    price: 130.0,
-    image: require("../../../assets/latte.png"),
+    total: 130.0,
+    voucher: undefined,
+    items: [
+      {
+        id: "2",
+        name: "Latte",
+        quantity: 2,
+        price: 130.0,
+        image: require("../../../assets/latte.png"),
+      },
+    ],
   },
   {
     id: "19",
-    name: "Cappuccino",
     date: "Feb 22, 2023",
-    price: 125.0,
-    image: require("../../../assets/cappuccino.png"),
+    total: 125.0,
+    voucher: undefined,
+    items: [
+      {
+        id: "3",
+        name: "Cappuccino",
+        quantity: 3,
+        price: 125.0,
+        image: require("../../../assets/cappuccino.png"),
+      },
+    ],
   },
   {
     id: "20",
-    name: "Mocha",
     date: "Feb 20, 2023",
-    price: 140.0,
-    image: require("../../../assets/mocha.png"),
+    total: 140.0,
+    voucher: undefined,
+    items: [
+      {
+        id: "4",
+        name: "Mocha",
+        quantity: 1,
+        price: 140.0,
+        image: require("../../../assets/mocha.png"),
+      },
+    ],
   },
 ];
 
@@ -176,6 +208,12 @@ export const styles = StyleSheet.create({
     color: "#888",
     marginTop: 2,
   },
+  itemQuantity: {
+    fontSize: 14,
+    color: "#555",
+    marginTop: 4,
+  },
+
   itemPriceContainer: {
     flexDirection: "column",
     // alignItems: "right",

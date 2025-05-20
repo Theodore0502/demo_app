@@ -30,9 +30,19 @@ export interface Product {
 }
 
 export interface OrderItem {
+  price: ReactNode;
+  quantity: ReactNode;
+  name: ReactNode;
+  image: ImageSourcePropType;
   id: string;
-  name: string;
   date: string;
-  price: number;
-  image: any;
+  total: number;
+  voucher?: string;
+  items: {
+    id: string;
+    name: string;
+    quantity: number;
+    price: number;
+    image: ImageSourcePropType;
+  }[];
 }

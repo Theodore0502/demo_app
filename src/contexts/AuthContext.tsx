@@ -110,7 +110,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             return false;
         }
 
-        const newUser: User = { name, username, password, avatar: null, address };
+        const newUser: User = { name, username, password, avatar: null };
         await AsyncStorage.setItem(username, JSON.stringify(newUser));
         setUser(newUser);
         return true;

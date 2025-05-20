@@ -13,6 +13,7 @@ import styles from '../../styles/cart/Voucher';
 import { RootStackParamList } from '../../types/route';
 import { ImageBackground } from 'react-native';
 import { useCart } from "../../contexts/CartContext"; // Import useCart
+import { useAuth } from '../../contexts/AuthContext';
 
 interface Voucher {
     id: string;
@@ -25,6 +26,7 @@ interface Voucher {
 const VoucherScreen: React.FC = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { cartItems } = useCart(); // Lấy cartItems từ CartContext
+    const { user } = useAuth();
     const scrollY = useRef(new Animated.Value(0)).current;
 
     const [availableVouchers, setAvailableVouchers] = React.useState<Voucher[]>([
@@ -75,7 +77,7 @@ const VoucherScreen: React.FC = () => {
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => navigation.navigate("Main", { screen: "Profile" })}>
                             <Image
-                                source={require("../../../assets/user.png")}
+                                source={user?.avatar ? { uri: user.avatar } : require("../../../assets/user.png")}
                                 style={{ width: 30, height: 30 }}
                             />
                         </TouchableOpacity>

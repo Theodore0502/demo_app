@@ -80,6 +80,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+    cartBadge: {
+    position: "absolute",
+    top: -5,
+    right: -5,
+    backgroundColor: "#53B175",
+    borderRadius: 10,
+    width: 18,
+    height: 18,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cartBadgeText: {
+    color: "#fff",
+    fontSize: 10,
+    fontWeight: "bold",
+  },
   addBtnSmall: {
     backgroundColor: "#eee",
     padding: 6,

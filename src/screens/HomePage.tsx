@@ -124,7 +124,7 @@ const HomeScreen = () => {
                 onPress={() => {
                     const size = item.sizes && item.sizes.length > 0 ? item.sizes[0].size : undefined;
                     addToCart({
-                        id: String(item.id),
+                        id: item.id,
                         name: item.name,
                         price: item.price,
                         image: item.image,
@@ -146,6 +146,7 @@ const HomeScreen = () => {
             resizeMode="cover"
         >
             <SafeAreaView style={{ flex: 1 }}>
+                <StatusBar backgroundColor="black" barStyle="light-content" translucent={true} />
                 <View style={styles.container}>
                     <View style={styles.header}>
                         <Text style={styles.headerText}>
@@ -159,7 +160,7 @@ const HomeScreen = () => {
                                 <Ionicons name="cart-outline" size={21} color="#333" />
                                 <View style={styles.cartBadge}>
                                     <Text style={styles.cartBadgeText}>
-                                        {cartItems.length} {/* Hiển thị số lượng sản phẩm */}
+                                        {cartItems.length}
                                     </Text>
                                 </View>
                             </TouchableOpacity>
@@ -167,8 +168,8 @@ const HomeScreen = () => {
                                 onPress={() => navigation.navigate("Main", { screen: "Profile" })}
                             >
                                 <Image
-                                    source={require("../../assets/user.png")}
-                                    style={{ width: 30, height: 30 }}
+                                    source={user?.avatar ? { uri: user.avatar } : require("../../assets/user.png")}
+                                    style={{ width: 30, height: 30, borderRadius: 5 }}
                                 />
                             </TouchableOpacity>
                         </View>
@@ -178,7 +179,6 @@ const HomeScreen = () => {
                         showsVerticalScrollIndicator={false}
                         keyboardShouldPersistTaps="handled"
                     >
-                        {/* Search bar */}
                         <View style={styles.searchContainer}>
                             <Ionicons
                                 name="search-outline"
@@ -188,7 +188,7 @@ const HomeScreen = () => {
                             />
                             <TextInput
                                 style={styles.searchInput}
-                                placeholder="Find food or restaurant..."
+                                placeholder="Find for food or restaurant..."
                                 placeholderTextColor="#c8c8c8"
                                 value={searchQuery}
                                 onChangeText={setSearchQuery}
@@ -197,13 +197,11 @@ const HomeScreen = () => {
                             />
                         </View>
 
-                        {/* Promo banner */}
                         <ScrollView
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             contentContainerStyle={{ paddingRight: 20 }}
                         >
-                            {/* Banner 1 */}
                             <TouchableOpacity
                                 onPress={() => navigation.navigate("Main", { screen: "Voucher" })}
                             >
@@ -229,7 +227,6 @@ const HomeScreen = () => {
                                 </ImageBackground>
                             </TouchableOpacity>
 
-                            {/* Banner 2 */}
                             <TouchableOpacity
                                 onPress={() => navigation.navigate("Main", { screen: "Voucher" })}
                             >
@@ -250,7 +247,6 @@ const HomeScreen = () => {
                             </TouchableOpacity>
                         </ScrollView>
 
-                        {/* Categories horizontal list */}
                         <FlatList
                             data={categories}
                             renderItem={renderCategoryItem}
@@ -264,7 +260,6 @@ const HomeScreen = () => {
                             }}
                         />
 
-                        {/* Recommendations section */}
                         <View style={styles.recommendationHeader}>
                             <Text style={styles.recommendationTitle}>Recommendation</Text>
                         </View>
@@ -272,7 +267,7 @@ const HomeScreen = () => {
                         {isSearching && searchResults.length === 0 ? (
                             <View style={{ alignItems: "center", marginTop: 120 }}>
                                 <Text style={{ fontSize: 16, color: "#666" }}>
-                                    No products found for keyword "{searchQuery}"
+                                    Can not find product with key search "{searchQuery}"
                                 </Text>
                             </View>
                         ) : (

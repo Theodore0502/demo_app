@@ -92,7 +92,7 @@ const SignUpScreen = () => {
                                 secureTextEntry={!isPasswordVisible}
                                 onChangeText={setPassword}
                             />
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={handlePasswordVisibility}>
                                 <Icon
                                     name={isPasswordVisible ? "visibility" : "visibility-off"}
                                     size={20}

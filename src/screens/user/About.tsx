@@ -12,9 +12,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../../types/route';
 import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import styles from '../../styles/user/About';
+import { useAuth } from '../../contexts/AuthContext';
 
 const AboutScreen = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList, "About">>();
+    const { user } = useAuth();
 
     return (
         <SafeAreaView style={styles.container}>
@@ -31,8 +33,8 @@ const AboutScreen = () => {
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate("Main", { screen: "Profile" })}>
                     <Image
-                        source={require("../../../assets/user.png")}
-                        style={{ width: 30, height: 30, marginRight: 25, }}
+                        source={user?.avatar ? { uri: user.avatar } : require("../../../assets/user.png")}
+                        style={{ width: 30, height: 30, marginRight: 25, borderRadius: 5, }}
                     />
                 </TouchableOpacity>
             </View>

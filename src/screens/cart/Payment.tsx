@@ -4,10 +4,14 @@ import styles from '../../styles/cart/Payment';
 import { RootStackParamList } from '../../types/route';
 import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from 'react';
+import { useCart } from '../../contexts/CartContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 const PaymentScreen = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList, "Payment">>();
     const [selected, setSelected] = useState("PayPal");
+    const { cartItems } = useCart();
+    const { user } = useAuth();
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -33,11 +37,16 @@ const PaymentScreen = () => {
                                 onPress={() => navigation.navigate("Order")}
                             >
                                 <Ionicons name="cart-outline" size={21} color="#333" />
+                                <View style={styles.cartBadge}>
+                                    <Text style={styles.cartBadgeText}>
+                                        {cartItems.length} {/* Hiển thị số lượng sản phẩm */}
+                                    </Text>
+                                </View>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => navigation.navigate("Main", { screen: "Profile" })}>
                                 <Image
-                                    source={require("../../../assets/user.png")}
-                                    style={{ width: 30, height: 30 }}
+                                    source={user?.avatar ? { uri: user.avatar } : require('../../../assets/user.png')}
+                                    style={{ width: 30, height: 30, borderRadius: 5, }}
                                 />
                             </TouchableOpacity>
                         </View>

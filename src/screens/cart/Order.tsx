@@ -13,6 +13,7 @@ import { NavigationProp, useNavigation, useRoute, RouteProp } from "@react-navig
 import { RootStackParamList } from "../../types/route";
 import { useCart } from "../../contexts/CartContext"; // Import useCart
 import { useFocusEffect } from "@react-navigation/native";
+import { useOrderHistory } from "../../contexts/OrderHistoryContext"; // Import useOrderHistory
 
 const OrderScreen = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -67,7 +68,21 @@ const OrderScreen = () => {
         navigation.navigate("Main", { screen: "Voucher" });
     };
 
+    const { addOrder } = useOrderHistory(); // lấy từ context
+
     const handleCheckout = () => {
+        const total = parseFloat(calculateTotal());
+        const date = new Date().toLocaleString();
+
+        // Add order trước khi clear cart
+        addOrder({
+            id: Date.now().toString(),
+            items: [...cartItems],
+            total,
+            voucher: selectedVoucher,
+            date
+        });
+
         setModalVisible(true);
 
         setTimeout(() => {
@@ -76,13 +91,13 @@ const OrderScreen = () => {
             setSelectedVoucher("");
             setDiscountValue(0);
 
-            // Reset navigation stack và xóa luôn params voucher để tránh bị set lại
             navigation.reset({
                 index: 0,
                 routes: [{ name: 'Main', params: { screen: 'OrderHistory' } }],
             });
         }, 1500);
     };
+
 
     const handleCloseModal = () => {
         setModalVisible(false);
